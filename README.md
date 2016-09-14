@@ -13,3 +13,7 @@
 	- [ ] wr rating vs team
 	- [ ] rb rating vs team
 	- [ ] status (q, ir, etc.)
+# Links to use
+- http://www.fantasyfootballnerd.com/fantasy-football-api
+- https://developer.yahoo.com/fantasysports/
+- http://api.fantasy.nfl.com/
