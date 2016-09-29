@@ -38,9 +38,7 @@ class FootballProjections
 			playerLName = player.attr("lastName")
 			playername = "#{playerFName} #{playerLName}"
 
-			if @allplayers[position][playername].nil?
-				@allplayers[position][playername] = {}
-			end
+			@allplayers[position][playername] = {} if @allplayers[position][playername].nil?
 			
 			@allplayers[position][playername] = {}
 			@allplayers[position][playername]['team'] = player.attr("teamAbbr")
@@ -56,10 +54,8 @@ class FootballProjections
 		players.each do |player|
 			playername = player.search('name').text
 
-			if @allplayers[position][playername].nil?
-				@allplayers[position][playername] = {}
-			end
-			
+			@allplayers[position][playername] = {} if @allplayers[position][playername].nil?
+
 			@allplayers[position][playername]['team'] = player.search('team').text
 			@allplayers[position][playername]['projectedPointsFFNStandard'] = player.search('standard').text
 			@allplayers[position][playername]['projectedPointsFFNStandardLow'] = player.search('standardLow').text
