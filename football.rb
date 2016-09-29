@@ -1,6 +1,7 @@
 require 'net/http'
 require 'nokogiri'
 require 'json'
+require 'csv'
 
 class FootballProjections
 	def initialize
@@ -55,7 +56,7 @@ class FootballProjections
 			playername = player.search('name').text
 
 			@allplayers[position][playername] = {} if @allplayers[position][playername].nil?
-
+			
 			@allplayers[position][playername]['team'] = player.search('team').text
 			@allplayers[position][playername]['projectedPointsFFNStandard'] = player.search('standard').text
 			@allplayers[position][playername]['projectedPointsFFNStandardLow'] = player.search('standardLow').text
@@ -71,9 +72,22 @@ class FootballProjections
 	end
 end
 
+timestamp = Time.new
+time = timestamp.strftime("%Y%m%d")
+
 football = FootballProjections.new
 
 ['QB', 'WR', 'RB'].each do |position|
 	football.getStats(position)
 end
-print football.instance_variable_get(:@allplayers).to_json
+
+allplayers = football.instance_variable_get(:@allplayers)
+
+allplayers.each do |position, players|
+	CSV.open("#{position}-#{time}.csv", "w") do |csv|
+		csv << ['Name', 'Team', 'Projected Points NFL','Projected Points FFN Standard','Projected Points FFN StandardLow','Projected Points FFN StandardHigh','Projected Points FFN PPR','Projected Points FFN PPRLow','Projected Points FFN PPRHigh']
+		players.each do |name, stats|
+			csv << [name,stats['team'],stats['projectedPointsNFL'],stats['projectedPointsFFNStandard'],stats['projectedPointsFFNStandardLow'],stats['projectedPointsFFNStandardHigh'],stats['projectedPointsFFNPPR'],stats['projectedPointsFFNPPRLow'],stats['projectedPointsFFNPPRHigh']]
+		end
+	end
+end
