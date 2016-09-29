@@ -1,12 +1,11 @@
 # To Do
-- [ ] write to google sheet or csv?
+- [ ] PHP UI that calls ruby and parses JSON to be a table or CSV
 - [ ] get the following
-    - [ ] projected points
-	- [x] nfl projections
-	- [x] fantasyfootballnerd projections
-	- [ ] yahoo fan points
-	- [ ] yahoo fan rating
-	- [ ] status (q, ir, etc.)
+    - [x] nfl projections
+    - [x] fantasyfootballnerd projections
+    - [ ] yahoo fan points
+    - [ ] yahoo fan rating
+    - [ ] status (q, ir, etc.)
 # Links to use
 - http://www.fantasyfootballnerd.com/fantasy-football-api
 - https://developer.yahoo.com/fantasysports/
