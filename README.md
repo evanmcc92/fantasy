@@ -1,5 +1,5 @@
 # To Do
-- [ ] PHP UI that calls ruby and parses JSON to be a table or CSV
+- [x] Write to CSV
 - [ ] get the following
     - [x] nfl projections
     - [x] fantasyfootballnerd projections
