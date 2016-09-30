@@ -3,7 +3,7 @@ require 'nokogiri'
 require 'json'
 require 'csv'
 require 'yaml'
-require 'cgi'
+require 'optparse'
 
 class FootballProjections
 	def initialize(fantasyfootballnerdkey)
@@ -93,9 +93,13 @@ class FootballProjections
 	end
 end
 
+options = {}
+optparse = OptionParser.new do |opts|
+	opts.banner = "Usage: football.rb [options]"
 
-cgi = CGI.new
-options = cgi.params
+	opts.on('-p', '--position NAME', 'Position (can only be QB, RB, or WR)') { |v| options[:position] = v }
+	opts.on('-c', '--csv BOOL', 'Print to CSV') { |v| options[:print] = v }
+end.parse!
 
 timestamp = Time.new
 time = timestamp.strftime("%Y%m%d")
@@ -105,15 +109,9 @@ config = YAML.load_file('config.yaml') # loading config info for database
 football = FootballProjections.new(config['fantasyFootballNerd']['apiKey'])
 football.getStats(options[:position])
 allplayers = football.instance_variable_get(:@allplayers)
-print allplayers.to_json
 
 if options[:print]
-	allplayers.each do |position, players|
-		CSV.open("#{position}-#{time}.csv", "w") do |csv|
-			csv << ['Name', 'Team', 'Projected Points NFL','Projected Points FFN Standard','Projected Points FFN StandardLow','Projected Points FFN StandardHigh','Projected Points FFN PPR','Projected Points FFN PPRLow','Projected Points FFN PPRHigh', 'Projected Points Fantasy Data']
-			players.each do |name, stats|
-				csv << [name,stats['team'],stats['projectedPointsNFL'],stats['projectedPointsFFNStandard'],stats['projectedPointsFFNStandardLow'],stats['projectedPointsFFNStandardHigh'],stats['projectedPointsFFNPPR'],stats['projectedPointsFFNPPRLow'],stats['projectedPointsFFNPPRHigh'],stats['projectedPointsFantasyData']]
-			end
-		end
+	File.open("../tmp/#{options[:position]}.json", "w") do |file|
+		file.write(allplayers.to_json)
 	end
 end

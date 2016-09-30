@@ -8,4 +8,3 @@ gem 'nokogiri'
 
 # parse yaml
 gem 'safe_yaml'
-gem 'sinatra'
