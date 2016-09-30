@@ -2,7 +2,7 @@ require 'net/http'
 require 'nokogiri'
 require 'json'
 require 'csv'
-require 'yaml' # parse yaml
+require 'yaml'
 
 class FootballProjections
 	def initialize(fantasyfootballnerdkey)

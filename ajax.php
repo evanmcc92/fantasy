@@ -8,8 +8,6 @@ require_once 'Spyc.class.php';
 
 $config = Spyc::YAMLLoad('config.yaml');
 
-$script = 'whoami';
-
 $redis = new Predis\Client(array(
 	'host' => $config['redis']['host'], 
 	'port' => $config['redis']['port'], 
