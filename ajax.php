@@ -28,5 +28,4 @@ foreach (array('QB', 'RB', 'WR') as $key) {
 	}
 }
 
-echo "<pre>";
 print_r($result);
