@@ -1,0 +1,6 @@
+{
+  "require": {
+    "ext-soap": "*",
+    "ext-mbstring": "*",
+	}
+}
