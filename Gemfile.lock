@@ -7,15 +7,7 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     pkg-config (1.1.7)
-    rack (1.6.4)
-    rack-protection (1.5.3)
-      rack
     safe_yaml (1.0.4)
-    sinatra (1.4.7)
-      rack (~> 1.5)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
-    tilt (2.0.5)
 
 PLATFORMS
   ruby
@@ -24,7 +16,6 @@ DEPENDENCIES
   OptionParser
   nokogiri
   safe_yaml
-  sinatra
 
 RUBY VERSION
    ruby 2.3.0p0
