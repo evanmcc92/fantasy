@@ -2,11 +2,12 @@ require 'net/http'
 require 'nokogiri'
 require 'json'
 require 'csv'
+require 'yaml' # parse yaml
 
 class FootballProjections
-	def initialize
+	def initialize(fantasyfootballnerdkey)
 		@allplayers = {}
-		fantasyfootballnerdkey = "rbiqguw72u7j"
+		fantasyfootballnerdkey = 
 		@fantasyfootballnerdurls = {
 			"QB" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/QB",
 			"WR" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/WR",
@@ -91,22 +92,32 @@ class FootballProjections
 	end
 end
 
+
+options = {}
+optparse = OptionParser.new do |opts|
+	opts.banner = "Usage: football.rb [options]"
+
+	opts.on('-p', '--position NAME', 'Position (can only be QB, RB, or WR)') { |v| options[:position] = v }
+	opts.on('-c', '--csv BOOL', 'Print to CSV') { |v| options[:print] = v }
+end.parse!
+
 timestamp = Time.new
 time = timestamp.strftime("%Y%m%d")
 
-football = FootballProjections.new
+config = YAML.load_file('config.yaml') # loading config info for database
 
-['QB', 'WR', 'RB'].each do |position|
-	football.getStats(position)
-end
-
+football = FootballProjections.new(config['fantasyFootballNerd']['apiKey'])
+football.getStats(options[:position])
 allplayers = football.instance_variable_get(:@allplayers)
+print allplayers.to_json
 
-allplayers.each do |position, players|
-	CSV.open("#{position}-#{time}.csv", "w") do |csv|
-		csv << ['Name', 'Team', 'Projected Points NFL','Projected Points FFN Standard','Projected Points FFN StandardLow','Projected Points FFN StandardHigh','Projected Points FFN PPR','Projected Points FFN PPRLow','Projected Points FFN PPRHigh', 'Projected Points Fantasy Data']
-		players.each do |name, stats|
-			csv << [name,stats['team'],stats['projectedPointsNFL'],stats['projectedPointsFFNStandard'],stats['projectedPointsFFNStandardLow'],stats['projectedPointsFFNStandardHigh'],stats['projectedPointsFFNPPR'],stats['projectedPointsFFNPPRLow'],stats['projectedPointsFFNPPRHigh'],stats['projectedPointsFantasyData']]
+if options[:print]
+	allplayers.each do |position, players|
+		CSV.open("#{position}-#{time}.csv", "w") do |csv|
+			csv << ['Name', 'Team', 'Projected Points NFL','Projected Points FFN Standard','Projected Points FFN StandardLow','Projected Points FFN StandardHigh','Projected Points FFN PPR','Projected Points FFN PPRLow','Projected Points FFN PPRHigh', 'Projected Points Fantasy Data']
+			players.each do |name, stats|
+				csv << [name,stats['team'],stats['projectedPointsNFL'],stats['projectedPointsFFNStandard'],stats['projectedPointsFFNStandardLow'],stats['projectedPointsFFNStandardHigh'],stats['projectedPointsFFNPPR'],stats['projectedPointsFFNPPRLow'],stats['projectedPointsFFNPPRHigh'],stats['projectedPointsFantasyData']]
+			end
 		end
 	end
 end
