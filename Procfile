@@ -1,1 +1,1 @@
- web: bin/ruby -m CGIHTTPServer $PORT
+web: bundle exec passenger start -p $PORT
