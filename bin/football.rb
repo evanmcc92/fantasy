@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'json'
 require 'csv'
 require 'yaml'
+require 'cgi'
 
 class FootballProjections
 	def initialize(fantasyfootballnerdkey)
@@ -93,13 +94,8 @@ class FootballProjections
 end
 
 
-options = {}
-optparse = OptionParser.new do |opts|
-	opts.banner = "Usage: football.rb [options]"
-
-	opts.on('-p', '--position NAME', 'Position (can only be QB, RB, or WR)') { |v| options[:position] = v }
-	opts.on('-c', '--csv BOOL', 'Print to CSV') { |v| options[:print] = v }
-end.parse!
+cgi = CGI.new
+options = cgi.params
 
 timestamp = Time.new
 time = timestamp.strftime("%Y%m%d")
