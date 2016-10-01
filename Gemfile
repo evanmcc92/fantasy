@@ -1,10 +1,14 @@
 source "https://rubygems.org"
 ruby "2.3.0"
 #command line arguments
-gem 'OptionParser'
+gem 'OptionParser', '0.5.1'
 
 #scrape html for things
-gem 'nokogiri'
+gem 'nokogiri', '1.6.8'
 
 # parse yaml
-gem 'safe_yaml'
+gem 'safe_yaml', '1.0.4'
+
+gem 'rake', '11.3.0'
+gem 'rack', '2.0.1'
+gem 'passenger', '5.0.30'
