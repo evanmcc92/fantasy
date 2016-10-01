@@ -15,6 +15,7 @@
 		getStats("WR");
 		getStats("RB");
 		getStats("TE");
+		getStats("DEF");
 
 		function getStats(position) {
 			$.get( "tmp/"+position+".json", function( data ) {
