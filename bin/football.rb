@@ -13,18 +13,24 @@ class FootballProjections
 			"QB" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/QB",
 			"WR" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/WR",
 			"RB" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/RB",
+			"TE" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/TE",
+			"DEF" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/DEF",
 		}
 
 		@nflurls = {
 			'QB' => "http://api.fantasy.nfl.com/v1/players/scoringleaders?position=QB&sort=projectedPts",
 			'RB' => "http://api.fantasy.nfl.com/v1/players/scoringleaders?position=RB&sort=projectedPts",
 			'WR' => "http://api.fantasy.nfl.com/v1/players/scoringleaders?position=WR&sort=projectedPts",
+			'TE' => "http://api.fantasy.nfl.com/v1/players/scoringleaders?position=TE&sort=projectedPts",
+			'DEF' => 'http://api.fantasy.nfl.com/v1/players/scoringleaders?position=DEF&sort=projectedPts',
 		}
 
 		@fanstasydataurls = {
 			'QB' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=1&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
 			'RB' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=2&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
 			'WR' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=3&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
+			'TE' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=4&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
+			'DEF' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=6&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4'
 		}
 	end
 
@@ -86,6 +92,7 @@ class FootballProjections
 			if c > 0
 				playername = tr.css('td')[1].text
 				@allplayers[position][playername] = {} if @allplayers[position][playername].nil?
+				@allplayers[position][playername]['team'] = tr.css('td')[4].text
 				@allplayers[position][playername]['projectedPointsFantasyData'] = tr.css('td').last.text
 			end
 			c+=1

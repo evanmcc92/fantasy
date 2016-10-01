@@ -14,9 +14,11 @@
 		getStats("QB");
 		getStats("WR");
 		getStats("RB");
+		getStats("TE");
+
 		function getStats(position) {
 			$.get( "tmp/"+position+".json", function( data ) {
-				var table = "<div class='table-responsive'><table id='"+position.toLowerCase()+"-table' class='table table-striped'><thead><tr><th>Name</th> <th>team</th><th>projectedPointsNFL</th><th>projectedPointsFFNStandard</th><th>projectedPointsFFNStandardLow</th><th>projectedPointsFFNStandardHigh</th><th>projectedPointsFFNPPR</th><th>projectedPointsFFNPPRLow</th><th>projectedPointsFFNPPRHigh</th><th>projectedPointsFantasyData</th></tr></thead><tbody>";
+				var table = "<h3>"+position+"</h3><div class='table-responsive'><table id='"+position.toLowerCase()+"-table' class='table table-striped'><thead><tr><th>Name</th> <th>team</th><th>Projected Points NFL</th><th>Projected Points FFN Standard</th><th>Projected Points FFN Standard Low</th><th>Projected Points FFN Standard High</th><th>Projected Points FFN PPR</th><th>Projected Points FFN PPR Low</th><th>Projected Points FFN PPR High</th><th>Projected Points Fantasy Data</th></tr></thead><tbody>";
 				$.each(data, function (key, val) {
 					$.each(val, function (k, v) {
 						table += "<tr><td>"+k+"</td><td>"+v['team']+"</td><td>"+(v['projectedPointsNFL'] ? v['projectedPointsNFL'] : 0)+"</td><td>"+(v['projectedPointsFFNStandard'] ? v['projectedPointsFFNStandard'] : 0)+"</td><td>"+(v['projectedPointsFFNStandardLow'] ? v['projectedPointsFFNStandardLow'] : 0)+"</td><td>"+(v['projectedPointsFFNStandardHigh'] ? v['projectedPointsFFNStandardHigh'] : 0)+"</td><td>"+(v['projectedPointsFFNPPR'] ? v['projectedPointsFFNPPR'] : 0)+"</td><td>"+(v['projectedPointsFFNPPRLow'] ? v['projectedPointsFFNPPRLow'] : 0)+"</td><td>"+(v['projectedPointsFFNPPRHigh'] ? v['projectedPointsFFNPPRHigh'] : 0)+"</td><td>"+(v['projectedPointsFantasyData'] ? v['projectedPointsFantasyData'] : 0)+"</td></tr>";
@@ -25,8 +27,8 @@
 				table += "</tbody></table></div>";
 				$( "#"+position.toLowerCase()+"" ).html(table);
 				$(document).ready(function() {
-  $('#'+position.toLowerCase()+'-table').dataTable();
-});
+					$('#'+position.toLowerCase()+'-table').dataTable();
+				});
 			});
 		}
 	</script>
@@ -43,29 +45,38 @@
 <div class="jumbotron">
 	<div class="container">
 		<h1>Fantasy Stats</h1>
-		<p>Fantasy Stats from a few different sites</p>
+		<p>Fantasy Stats from a few different sites:</p>
+		<ul>
+			<li><a href="http://www.fantasyfootballnerd.com">Fantasy Football Nerd</a></li>
+			<li><a href="http://api.fantasy.nfl.com">NFL</a></li>
+			<li><a href="https://fantasydata.com">Fantasy Data</a></li>
+		</ul>
 	</div>
 </div>
 
 <div class="container">
-	<h2>Dynamic Tabs</h2>
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#qb">QB</a></li>
 		<li><a data-toggle="tab" href="#wr">WR</a></li>
 		<li><a data-toggle="tab" href="#rb">RB</a></li>
+		<li><a data-toggle="tab" href="#te">TE</a></li>
+		<li><a data-toggle="tab" href="#def">DEF</a></li>
 	</ul>
 	<div class="tab-content">
 		<div id="qb" class="tab-pane fade in active">
-			<h3>HOME</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+			<h3>QB</h3>
 		</div>
 		<div id="wr" class="tab-pane fade">
-			<h3>Menu 1</h3>
-			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+			<h3>WR</h3>
 		</div>
 		<div id="rb" class="tab-pane fade">
-			<h3>Menu 2</h3>
-			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+			<h3>RB</h3>
+		</div>
+		<div id="te" class="tab-pane fade">
+			<h3>TE</h3>
+		</div>
+		<div id="def" class="tab-pane fade">
+			<h3>DEF</h3>
 		</div>
 	</div>
 </div>
