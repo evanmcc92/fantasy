@@ -24,6 +24,9 @@
 				});
 				table += "</tbody></table></div>";
 				$( "#"+position.toLowerCase()+"" ).html(table);
+				$(document).ready(function() {
+  $('#'+position.toLowerCase()+'-table').dataTable();
+});
 			});
 		}
 	</script>
@@ -66,16 +69,5 @@
 		</div>
 	</div>
 </div>
-<script>
-$(document).ready(function() {
-  $('#qb-table').dataTable();
-});
-$(document).ready(function() {
-  $('#wr-table').dataTable();
-});
-$(document).ready(function() {
-  $('#rb-table').dataTable();
-});
-</script>
 </body>
 </html>
