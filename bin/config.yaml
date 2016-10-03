@@ -1,8 +1,0 @@
----
-fantasyFootballNerd:
-    apiKey: rbiqguw72u7j
-redis:
-    host: redis-19438.c9.us-east-1-4.ec2.cloud.redislabs.com
-    port: 19438
-    password: qSWAdeZCuSYlyrKk
-...
