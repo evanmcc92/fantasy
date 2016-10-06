@@ -6,9 +6,8 @@ require 'yaml'
 require 'optparse'
 
 class FootballProjections
-	def initialize(fantasyfootballnerdkey)
+	def initialize(fantasyfootballnerdkey, week)
 		@allplayers = {}
-		fantasyfootballnerdkey = 
 		@fantasyfootballnerdurls = {
 			"QB" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/QB",
 			"WR" => "http://www.fantasyfootballnerd.com/service/weekly-rankings/xml/#{fantasyfootballnerdkey}/WR",
@@ -24,13 +23,13 @@ class FootballProjections
 			'TE' => "http://api.fantasy.nfl.com/v1/players/scoringleaders?position=TE&sort=projectedPts",
 			'DEF' => 'http://api.fantasy.nfl.com/v1/players/scoringleaders?position=DEF&sort=projectedPts',
 		}
-
+		week -= 1
 		@fanstasydataurls = {
-			'QB' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=1&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
-			'RB' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=2&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
-			'WR' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=3&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
-			'TE' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=4&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4',
-			'DEF' => 'https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=3&ew=3&s=&t=0&p=6&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4'
+			'QB' => "https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=#{week}&ew=#{week}&s=&t=0&p=1&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4",
+			'RB' => "https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=#{week}&ew=#{week}&s=&t=0&p=2&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4",
+			'WR' => "https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=#{week}&ew=#{week}&s=&t=0&p=3&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4",
+			'TE' => "https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=#{week}&ew=#{week}&s=&t=0&p=4&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4",
+			'DEF' => "https://fantasydata.com/nfl-stats/fantasy-football-weekly-projections.aspx?fs=0&stype=0&sn=0&scope=1&w=#{week}&ew=#{week}&s=&t=0&p=6&st=FantasyPoints&d=1&ls=&live=false&pid=false&minsnaps=4",
 		}
 	end
 
@@ -106,16 +105,18 @@ optparse = OptionParser.new do |opts|
 
 	opts.on('-p', '--position NAME', 'Position (can only be QB, RB, or WR)') { |v| options[:position] = v }
 	opts.on('-c', '--csv BOOL', 'Print to CSV') { |v| options[:print] = v }
+	opts.on('-w', '--week INT', 'Week Number') { |v| options[:week] = v.to_i }
 end.parse!
 
 timestamp = Time.new
-time = timestamp.strftime("%Y%m%d")
+time = timestamp.strftime("%Y-%m-%d %H:%M:%S (%Z)")
 
 config = YAML.load_file('config.yaml') # loading config info for database
 
-football = FootballProjections.new(config['fantasyFootballNerd']['apiKey'])
+football = FootballProjections.new(config['fantasyFootballNerd']['apiKey'], options[:week])
 football.getStats(options[:position])
 allplayers = football.instance_variable_get(:@allplayers)
+allplayers['created_at'] = time
 
 if options[:print]
 	File.open("../tmp/#{options[:position]}.json", "w") do |file|
