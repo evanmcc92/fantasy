@@ -2,14 +2,12 @@ GEM
   remote: https://rubygems.org/
   specs:
     OptionParser (0.5.1)
-    mini_portile2 (2.1.0)
-    nokogiri (1.6.8)
-      mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
-    passenger (5.0.30)
+    mini_portile2 (2.3.0)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
+    passenger (5.1.0)
       rack
       rake (>= 0.8.1)
-    pkg-config (1.1.7)
     rack (2.0.1)
     rake (11.3.0)
     safe_yaml (1.0.4)
@@ -19,8 +17,8 @@ PLATFORMS
 
 DEPENDENCIES
   OptionParser (= 0.5.1)
-  nokogiri (= 1.6.8)
-  passenger (= 5.0.30)
+  nokogiri (= 1.8.2)
+  passenger (= 5.1.0)
   rack (= 2.0.1)
   rake (= 11.3.0)
   safe_yaml (= 1.0.4)
@@ -29,4 +27,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.5
+   1.16.4
