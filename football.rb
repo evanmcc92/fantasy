@@ -79,9 +79,14 @@ end.parse!
 timestamp = Time.new
 time = timestamp.strftime("%Y-%m-%d %H:%M:%S (%Z)")
 
+if config = YAML.load_file('config.yaml')
+	fantasyFootballNerdApiKey = config['fantasyFootballNerd']['apiKey']
+elsif ENV['fantasyFootballNerdApiKey']
+	fantasyFootballNerdApiKey = ENV['fantasyFootballNerdApiKey']
+end
 config = YAML.load_file('config.yaml') # loading config info for database
 
-football = FootballProjections.new(config['fantasyFootballNerd']['apiKey'], options[:week], options[:position])
+football = FootballProjections.new(fantasyFootballNerdApiKey, options[:week], options[:position])
 football.getStats(options[:position])
 allplayers = football.instance_variable_get(:@allplayers)
 allplayers['created_at'] = time
