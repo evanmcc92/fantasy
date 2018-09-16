@@ -85,7 +85,6 @@ elsif File.file?('config.yaml')
 	config = YAML.load_file('config.yaml')
 	fantasyFootballNerdApiKey = config['fantasyFootballNerd']['apiKey']
 end
-config = YAML.load_file('config.yaml') # loading config info for database
 
 football = FootballProjections.new(fantasyFootballNerdApiKey, options[:week], options[:position])
 football.getStats(options[:position])
