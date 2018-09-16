@@ -49,7 +49,7 @@ class FootballProjections
 		uri = URI(@fantasyfootballnerdurls[position])
 		res = Net::HTTP.get_response(uri)
 		xml_doc  = Nokogiri::Slop res.body
-		if xml_doc.WeeklyRankings
+		if xml_doc.key?('WeeklyRankings')
 			players = xml_doc.WeeklyRankings.Rankings.Player
 			players.each do |player|
 				playername = player.search('name').text
