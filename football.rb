@@ -79,7 +79,8 @@ end.parse!
 timestamp = Time.new
 time = timestamp.strftime("%Y-%m-%d %H:%M:%S (%Z)")
 
-if config = YAML.load_file('config.yaml')
+if File.file?('config.yaml')
+	config = YAML.load_file('config.yaml')
 	fantasyFootballNerdApiKey = config['fantasyFootballNerd']['apiKey']
 elsif ENV['fantasyFootballNerdApiKey']
 	fantasyFootballNerdApiKey = ENV['fantasyFootballNerdApiKey']
