@@ -79,11 +79,11 @@ end.parse!
 timestamp = Time.new
 time = timestamp.strftime("%Y-%m-%d %H:%M:%S (%Z)")
 
-if File.file?('config.yaml')
+if ENV['fantasyFootballNerdApiKey']
+	fantasyFootballNerdApiKey = ENV['fantasyFootballNerdApiKey']
+elsif File.file?('config.yaml')
 	config = YAML.load_file('config.yaml')
 	fantasyFootballNerdApiKey = config['fantasyFootballNerd']['apiKey']
-elsif ENV['fantasyFootballNerdApiKey']
-	fantasyFootballNerdApiKey = ENV['fantasyFootballNerdApiKey']
 end
 config = YAML.load_file('config.yaml') # loading config info for database
 
