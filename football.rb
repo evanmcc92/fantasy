@@ -49,20 +49,22 @@ class FootballProjections
 		uri = URI(@fantasyfootballnerdurls[position])
 		res = Net::HTTP.get_response(uri)
 		xml_doc  = Nokogiri::Slop res.body
-		players = xml_doc.WeeklyRankings.Rankings.Player
-		players.each do |player|
-			playername = player.search('name').text
+		if xml_doc.WeeklyRankings
+			players = xml_doc.WeeklyRankings.Rankings.Player
+			players.each do |player|
+				playername = player.search('name').text
 
-			@allplayers[position][playername] = {} if @allplayers[position][playername].nil?
-			
-			@allplayers[position][playername]['team'] = player.search('team').text
-			@allplayers[position][playername]['projectedPointsFFNStandard'] = player.search('standard').text
-			@allplayers[position][playername]['projectedPointsFFNStandardLow'] = player.search('standardLow').text
-			@allplayers[position][playername]['projectedPointsFFNStandardHigh'] = player.search('standardHigh').text
-			@allplayers[position][playername]['weightedPointsFFNStandard'] = ((player.search('standardHigh').text.to_f + player.search('standardLow').text.to_f + player.search('standardHigh').text.to_f)/3).round(2)
-			@allplayers[position][playername]['injury'] = player.search('injury').text
-			@allplayers[position][playername]['practiceStatus'] = player.search('practiceStatus').text
-			@allplayers[position][playername]['gameStatus'] = player.search('gameStatus').text
+				@allplayers[position][playername] = {} if @allplayers[position][playername].nil?
+				
+				@allplayers[position][playername]['team'] = player.search('team').text
+				@allplayers[position][playername]['projectedPointsFFNStandard'] = player.search('standard').text
+				@allplayers[position][playername]['projectedPointsFFNStandardLow'] = player.search('standardLow').text
+				@allplayers[position][playername]['projectedPointsFFNStandardHigh'] = player.search('standardHigh').text
+				@allplayers[position][playername]['weightedPointsFFNStandard'] = ((player.search('standardHigh').text.to_f + player.search('standardLow').text.to_f + player.search('standardHigh').text.to_f)/3).round(2)
+				@allplayers[position][playername]['injury'] = player.search('injury').text
+				@allplayers[position][playername]['practiceStatus'] = player.search('practiceStatus').text
+				@allplayers[position][playername]['gameStatus'] = player.search('gameStatus').text
+			end
 		end
 	end
 end
