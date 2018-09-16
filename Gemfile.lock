@@ -3,14 +3,23 @@ GEM
   specs:
     OptionParser (0.5.1)
     mini_portile2 (2.3.0)
+    mustermann (1.0.3)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     passenger (5.1.0)
       rack
       rake (>= 0.8.1)
     rack (2.0.1)
+    rack-protection (2.0.4)
+      rack
     rake (11.3.0)
     safe_yaml (1.0.4)
+    sinatra (2.0.4)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.4)
+      tilt (~> 2.0)
+    tilt (2.0.8)
 
 PLATFORMS
   ruby
@@ -22,6 +31,7 @@ DEPENDENCIES
   rack (= 2.0.1)
   rake (= 11.3.0)
   safe_yaml (= 1.0.4)
+  sinatra (= 2.0.4)
 
 RUBY VERSION
    ruby 2.4.4p296
