@@ -1,0 +1,59 @@
+<ul class="nav nav-tabs">
+	<% @allplayers[:playerData].keys.each do |position| %>
+		<li><a data-toggle="tab" href="#<%= position.downcase %>"><%= position %></a></li>
+	<% end %>
+</ul>
+<div class="tab-content">
+	<% @allplayers[:playerData].each do |position, players| %>
+		<div id="<%= position.downcase %>" class="tab-pane fade">
+			<h3><%= position %></h3>
+			<h4>Last Updated: <%= @allplayers[:metadata][:created_at] %></h4>
+			<h4>Week: <%= @allplayers[:metadata][:week] %></h4>
+			<div class='table-responsive'>
+				<table id='<%= position.downcase %>-table' class='table table-striped'>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Team</th>
+						<th>Opponets</th>
+						<th>Game Time</th>
+						<th>Injury</th>
+						<th>Practice Status</th>
+						<th>Game Status</th>
+						<th>Average</th>
+						<th>Projected Points NFL</th>
+						<th>Projected Points FFN</th>
+						<th>Projected Points FFN Low</th>
+						<th>Projected Points FFN High</th>
+						<th>Weighted Points FFN</th>
+					</tr>
+				</thead>
+				<tbody>
+				<% players.each do |name, playerObj| %>
+					<tr>
+						<td><%= name %></td>
+						<td><%= playerObj['team'] %></td>
+						<td><%= playerObj['vs'] %></td>
+						<td><%= playerObj['gameTime'] %></td>
+						<td><%= playerObj['injury'] %></td>
+						<td><%= playerObj['practiceStatus'] %></td>
+						<td><%= playerObj['gameStatus'] %></td>
+						<td><%= playerObj['average'] %></td>
+						<td><%= playerObj['projectedPointsNFL'] %></td>
+						<td><%= playerObj['projectedPointsFFNStandard'] %></td>
+						<td><%= playerObj['projectedPointsFFNStandardLow'] %></td>
+						<td><%= playerObj['projectedPointsFFNStandardHigh'] %></td>
+						<td><%= playerObj['weightedPointsFFNStandard'] %></td>
+					</tr>
+				<% end %>
+				</tbody>
+			</table>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#<%= position.downcase %>-table').DataTable();
+			});
+		</script>
+		</div>
+	<% end %>
+</div>
